@@ -1,0 +1,13 @@
+document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('cookieConsent')) {
+        document.body.innerHTML += `
+            <div id="cookieConsent" style="position:fixed;bottom:0;background:#333;color:#fff;padding:10px;width:100%;text-align:center;">
+                Aquest lloc web utilitza cookies. <a href="#" style="color:#fff;">Més informació</a>.
+                <button id="acceptCookies" style="margin-left:10px;">D'acord</button>
+            </div>`;
+        document.getElementById('acceptCookies').addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', true);
+            document.getElementById('cookieConsent').remove();
+        });
+    }
+});

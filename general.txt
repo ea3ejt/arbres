@@ -1,0 +1,184 @@
+una versió en angles.
+Crear una pàgina web similar a park4night.com però centrada en arbres monumentals de Catalunya és un projecte complex que implica el desenvolupament d'una aplicació web amb funcionalitats com el registre d'usuaris, la gestió de dades, la integració de mapes interactius i la creació d'una base de dades. A continuació, et proporcionaré una guia bàsica per començar amb aquest projecte, incloent els elements clau i el codi necessari per configurar una versió inicial.
+
+Estructura del Projecte
+Tecnologies utilitzades:
+
+Frontend: HTML, CSS, JavaScript (amb Bootstrap per al disseny responsive).
+
+Backend: Node.js amb Express.js.
+
+Base de dades: MySQL o PostgreSQL.
+
+Mapes interactius: Leaflet.js o Google Maps API.
+
+Autenticació d'usuaris: Passport.js.
+
+Gestió de cookies: Consentiment amb JavaScript.
+
+Estructura de carpetes:
+
+Copy
+/arbres-monumentals-cat
+├── /public
+│   ├── css
+│   ├── js
+│   ├── images
+├── /src
+│   ├── routes
+│   ├── controllers
+│   ├── models
+│   ├── views
+├── package.json
+├── server.js
+Base de dades:
+
+Taula users: per emmagatzemar dades dels usuaris registrats.
+
+Taula trees: per emmagatzemar informació dels arbres monumentals.
+
+Taula locations: per emmagatzemar ubicacions i dades dels municipis.
+
+Exemple d'esquema SQL:
+
+sql
+Copy
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE trees (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    scientific_name VARCHAR(100) NOT NULL,
+    popular_name VARCHAR(100) NOT NULL,
+    description TEXT,
+    photo_url VARCHAR(255),
+    location_id INT,
+    FOREIGN KEY (location_id) REFERENCES locations(id)
+);
+
+CREATE TABLE locations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    municipality VARCHAR(100) NOT NULL,
+    coordinates POINT NOT NULL,
+    owner_email VARCHAR(100),
+    town_hall_email VARCHAR(100) NOT NULL
+);
+Codi bàsic:
+
+server.js (Backend):
+
+javascript
+Copy
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+const app = express();
+const port = 3000;
+
+// Configuració de la base de dades
+const db = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: '',
+    database: 'arbres_monumentals'
+});
+
+db.connect((err) => {
+    if (err) throw err;
+    console.log('Conectat a la base de dades');
+});
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(express.static('public'));
+
+// Rutes
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/src/views/index.html');
+});
+
+app.listen(port, () => {
+    console.log(`Servidor escoltant a http://localhost:${port}`);
+});
+index.html (Frontend):
+
+html
+Copy
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbres Monumentals de Catalunya</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <div id="map" style="height: 500px;"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([41.5912, 1.5209], 8); // Coordenades de Catalunya
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+        }).addTo(map);
+    </script>
+</body>
+</html>
+Run HTML
+Funcionalitats addicionals:
+
+Registre d'usuaris: Utilitza Passport.js per gestionar l'autenticació.
+
+Afegir nous arbres: Crea un formulari perquè els usuaris registrats puguin afegir nous arbres.
+
+Mapa interactiu: Utilitza Leaflet.js per mostrar la ubicació dels arbres.
+
+Gestió de cookies: Afegeix un banner de consentiment de cookies amb JavaScript.
+
+Versió en anglès: Utilitza un sistema de traducció com i18next.
+
+Creative Commons:
+
+Afegeix una llicència Creative Commons al peu de pàgina.
+
+Exemple: © 2023 Arbres Monumentals de Catalunya. Creative Commons BY-SA 4.0.
+
+Responsive Design:
+
+Utilitza Bootstrap per assegurar que la pàgina sigui responsive.
+
+Conformitat amb cookies:
+
+Afegeix un banner de cookies amb JavaScript:
+
+javascript
+Copy
+document.addEventListener('DOMContentLoaded', function() {
+    if (!localStorage.getItem('cookieConsent')) {
+        document.body.innerHTML += `
+            <div id="cookieConsent" style="position:fixed;bottom:0;background:#333;color:#fff;padding:10px;width:100%;text-align:center;">
+                Aquest lloc web utilitza cookies. <a href="#" style="color:#fff;">Més informació</a>.
+                <button id="acceptCookies" style="margin-left:10px;">D'acord</button>
+            </div>`;
+        document.getElementById('acceptCookies').addEventListener('click', function() {
+            localStorage.setItem('cookieConsent', true);
+            document.getElementById('cookieConsent').remove();
+        });
+    }
+});
+Passos següents
+Configura el servidor i la base de dades.
+
+Implementa les funcionalitats d'autenticació i gestió d'arbres.
+
+Millora el disseny i la interactivitat del mapa.
+
+Prova i depura el projecte.
+
+Desplega la pàgina web en un servidor.
+
+Aquest és un punt de partida bàsic. Pots ampliar i millorar el projecte segons les teves necessitats.

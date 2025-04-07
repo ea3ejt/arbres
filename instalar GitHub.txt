@@ -1,0 +1,107 @@
+Per instal·lar i configurar GitHub localment (és a dir, utilitzar Git al teu ordinador per connectar-te amb GitHub), segueix aquests passos:
+
+1. Instal·lar Git
+Git és el sistema de control de versions necessari per interactuar amb GitHub des de la teva màquina.
+
+Windows
+Descarrega Git des de git-scm.com.
+
+Executa l’instal·lador i segueix els passos (opcional: marca "Add Git to PATH").
+
+macOS
+Via Homebrew (recomanat):
+
+bash
+Copy
+brew install git
+O descarrega directament des de git-scm.com.
+
+Linux (Ubuntu/Debian)
+bash
+Copy
+sudo apt update && sudo apt install git
+2. Configurar Git per primera vegada
+Obre una terminal (Cmd + Space i escriu Terminal a macOS, o Ctrl + Alt + T a Linux/Windows) i executa:
+
+bash
+Copy
+git config --global user.name "ElTeuNomDeGitHub"
+git config --global user.email "el@teu.email"
+(Substitueix pel teu nom d’usuari i email de GitHub).
+
+3. Connectar Git amb GitHub (via SSH o HTTPS)
+Opció A: Connexió SSH (més segura)
+Genera una clau SSH:
+
+bash
+Copy
+ssh-keygen -t ed25519 -C "el@teu.email"
+(Prem Enter per acceptar la ubicació predeterminada).
+
+Afegeix la clau a l’agent SSH:
+
+bash
+Copy
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_ed25519
+Copia la clau pública:
+
+A macOS/Linux:
+
+bash
+Copy
+cat ~/.ssh/id_ed25519.pub
+A Windows:
+
+bash
+Copy
+type %userprofile%\.ssh\id_ed25519.pub
+Pega la clau a GitHub:
+
+Ves a github.com/settings/keys.
+
+Clica "New SSH Key" i enganxa la clau.
+
+Opció B: Connexió HTTPS (més senzilla)
+Si prefereixes no configurar SSH, pots clonar repositoris amb HTTPS (et demanarà credencials quan facis push).
+
+4. Clonar un repositori de GitHub
+Ves al repositori a GitHub i clica "Code" (escull HTTPS o SSH).
+
+Copia l’enllaç (ex: git@github.com:usuari/repositori.git).
+
+Executa a la terminal:
+
+bash
+Copy
+git clone enllaç-del-repositori
+(Es crearà una carpeta amb el projecte).
+
+5. Comandes bàsiques de Git
+git status: Mostra canvis pendents.
+
+git add .: Afegeix tots els canvis per fer commit.
+
+git commit -m "Missatge": Desa els canvis localment.
+
+git push: Puja els canvis a GitHub.
+
+git pull: Actualitza el repositori local amb canvis remots.
+
+6. Instal·lar GitHub Desktop (opcional)
+Si prefereixes una interfície gràfica:
+
+Descarrega GitHub Desktop.
+
+Verificació
+Executa:
+
+bash
+Copy
+git --version
+Si mostra la versió de Git, tot està correcte! 🎉
+
+Nota: Si utilitzes VS Code, pots gestionar Git directament des de la pestanya Source Control (Ctrl + Shift + G).
+
+Diguem-me si necessites ajuda amb algun pas! 😊
+
